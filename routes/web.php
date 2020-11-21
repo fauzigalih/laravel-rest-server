@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\ApiController;
+use App\Http\Controllers\HelpController;
+use App\Http\Controllers\ShowProfile;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,7 +20,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [UserController::class, 'index']);
 Route::get('create', [UserController::class, 'create']);
 Route::get('edit/{user}', [UserController::class, 'edit'])->name('edit');
-Route::get('{user}', [UserController::class, 'show'])->name('show');
+Route::get('show/{user}', [UserController::class, 'show'])->name('show');
 Route::post('/', [UserController::class, 'store'])->name('store');
-Route::put('{user}', [UserController::class, 'update']);
-Route::delete('{user}', [UserController::class, 'destroy']);
+Route::put('update/{user}', [UserController::class, 'update']);
+Route::delete('destroy/{user}', [UserController::class, 'destroy']);
+
+
+Route::get('api', [ApiController::class, 'index'])->name('api');
+Route::get('help', HelpController::class)->name('help');
