@@ -1,5 +1,6 @@
 @php
     $app = ucwords(str_replace('-', ' ', config('app.name')));
+    $route = Route::currentRouteName();
 @endphp
 <!doctype html>
 <html lang="en">
@@ -22,14 +23,14 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
               <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
+                <li class="nav-item {{ ($route !== 'api' && $route !== 'help') ? 'active' : '' }}">
                   <a class="nav-link" href="{{ url('/') }}">Home</a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">API</a>
+                <li class="nav-item {{ $route === 'api' ? 'active' : '' }}">
+                  <a class="nav-link" href="{{ url('api') }}">API</a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Help</a>
+                <li class="nav-item {{ $route === 'help' ? 'active' : '' }}">
+                  <a class="nav-link" href="{{ url('help') }}">Help</a>
                 </li>
               </ul>
             </div>
