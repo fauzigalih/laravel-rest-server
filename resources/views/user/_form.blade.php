@@ -2,7 +2,7 @@
   $show = Route::currentRouteName() === 'show';
   $edit = Route::currentRouteName() === 'edit';
 @endphp
-{!! Form::open(['url' => $edit ? '/'.$model->id : '/', 'method' => $edit ? 'PUT' : 'POST']) !!}
+{!! Form::open(['url' => $edit ? 'update/'.$model->id : '/', 'method' => $edit ? 'PUT' : 'POST']) !!}
   <div class="form-group">
     {!! Form::label('name', 'Full Name') !!}
     {!! Form::text('name', $model->name ?? null, ['class' => 'form-control' . ($errors->has('name') ? ' is-invalid' : ''), $show ? 'readonly' : 'required']) !!}
@@ -16,6 +16,9 @@
     @error('email')
       <small class="form-text text-danger">{{ $message }}</small>
     @enderror
+    @if (session('error'))
+      <small class="form-text text-danger">{{ session('error') }}</small>
+    @endif
     <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
   </div>
   <div class="form-group">
