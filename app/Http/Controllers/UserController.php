@@ -84,11 +84,21 @@ class UserController extends Controller
     {
         $model = User::findOrFail($user->id);
         User::validateData($request);
+        
+        if ($model->email !== $request->email) {
+            $count = User::where('email', 'like', '%' . $request->email . '%')->count();
+            if ($count > 0) {
+                return redirect('edit/'.$model->id)->with('error', $request->email . ' has already been taken.');
+            }
+        }
+        
         $update = $model->update([
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone
         ]);
+
+        
         if ($update) {
             return redirect('/')->with('success', 'Data was updated successfully!');
         }else{
