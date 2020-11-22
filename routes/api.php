@@ -19,4 +19,4 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::get('dev', [ApiController::class, 'getData']);
+Route::get('dev', [ApiController::class, 'show']);
