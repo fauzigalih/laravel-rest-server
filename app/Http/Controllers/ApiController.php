@@ -12,8 +12,20 @@ class ApiController extends Controller
         return view('api.index');
     }
 
-    public function show()
+    public function show(Request $request)
     {
-        return response()->json(User::all(), 200);
+        if ($request->id) {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Get single data user.',
+                'data' => User::where('id', $request->id)->first()
+            ], 200);
+        }else{
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Get all data user.',
+                'data' => User::all()
+            ], 200);
+        }
     }
 }
