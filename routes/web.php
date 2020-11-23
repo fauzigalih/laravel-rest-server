@@ -27,4 +27,7 @@ Route::delete('destroy/{user}', [UserController::class, 'destroy']);
 
 
 Route::get('api', [ApiController::class, 'index'])->name('api');
+Route::post('api', [ApiController::class, 'generate']);
+
+
 Route::get('help', HelpController::class)->name('help');
