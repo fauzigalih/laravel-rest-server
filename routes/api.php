@@ -15,8 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
+Route::post('dev', [ApiController::class, 'store']);
 Route::get('dev', [ApiController::class, 'show']);
+Route::put('dev', [ApiController::class, 'update']);
+Route::delete('dev', [ApiController::class, 'destroy']);
