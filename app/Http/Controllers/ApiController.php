@@ -149,46 +149,21 @@ class ApiController extends Controller
         }else{
             if (!Api::foundKey($request)) return Api::invalidKey();
             if (!Api::actionKey($request, 'delete')) return Api::blockAction();
+            
+            if (User::where('id', $request->id)->count() !== 0) {
+                $model = Api::where('key', $request->key)->first();
+                $modelUser = User::findOrFail($request->id);
+                $modelUserNow = User::findOrFail($request->id);
+                $modelUserNow->delete();
 
-            $model = Api::where('key', $request->key)->first();
-            $modelUser = User::findOrFail($request->id);
-            $modelUserNow = User::findOrFail($request->id);
-
-            if ($modelUserNow->delete()) {
-                
-            }
-            if ($request->name && $request->email && $request->phone) {
-                if ($modelUser->email !== $request->email) {
-                    if (User::where('email', 'like', '%' . $request->email . '%')->count() !== 0) {
-                        return response()->json([
-                            'status' => 'accept & canceled asas',
-                            'to' => $model->email ?? null,
-                            'message' => 'The email has already been taken.'
-                        ], 403);
-                    }
-                }else{
-                    $modelUserRequest = [
-                        'name' => $request->name,
-                        'email' => $request->email,
-                        'phone' => $request->phone
-                    ];
-                    $modelUserNow->update($modelUserRequest);
-                    return response()->json([
-                        'status' => 'success',
-                        'to' => $model->email ?? null,
-                        'message' => 'Data updated successfully.',
-                        'data' => [
-                            'before' => [
-                                'name' => $modelUser->name,
-                                'email' => $modelUser->email,
-                                'phone' => $modelUser->phone
-                            ],
-                            'after' => $modelUserRequest
-                        ]
-                    ], 200);
-                }
+                return response()->json([
+                    'status' => 'success',
+                    'to' => $model->email ?? null,
+                    'message' => 'Data deleted successfully.',
+                    'data' => $modelUser
+                ], 200);
             }else{
-                return Api::failedAction();
+                return Api::failedAction(404);
             }
         }
     }
