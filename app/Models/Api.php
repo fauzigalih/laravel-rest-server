@@ -58,10 +58,10 @@ class Api extends Model
         ], 403);
     }
     
-    public static function failedAction() {
+    public static function failedAction($status = 403) {
         return response()->json([
             'status' => 'failed',
             'message' => 'The action cannot be continued, please check your data again.',
-        ], 403);
+        ], $status);
     }
 }
