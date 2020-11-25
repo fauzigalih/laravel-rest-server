@@ -5,6 +5,9 @@ body {
     align-content: space-between;
     main {
         grid-area: main;
+        img {
+            margin-bottom: 5px;
+        }
     }
     footer {
         grid-area: footer;
