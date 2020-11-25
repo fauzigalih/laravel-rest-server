@@ -98,7 +98,6 @@ class UserController extends Controller
             'phone' => $request->phone
         ]);
 
-        
         if ($update) {
             return redirect('/')->with('success', 'Data was updated successfully!');
         }else{
