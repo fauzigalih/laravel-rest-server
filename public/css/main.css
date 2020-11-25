@@ -7,6 +7,9 @@ body {
 body main {
   grid-area: main;
 }
+body main img {
+  margin-bottom: 5px;
+}
 body footer {
   grid-area: footer;
 }
