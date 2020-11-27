@@ -39,7 +39,7 @@ class UserController extends Controller
         User::validateData($request);
         $create = User::create([
             'name' => $request->name,
-            'email' => $request->email,
+            'email' => strtolower($request->email),
             'phone' => $request->phone
         ]);
         if ($create) {
@@ -85,8 +85,8 @@ class UserController extends Controller
         $model = User::findOrFail($user->id);
         User::validateData($request);
         
-        if ($model->email !== $request->email) {
-            $count = User::where('email', 'like', '%' . $request->email . '%')->count();
+        if ($model->email !== strtolower($request->email)) {
+            $count = User::where('email', strtolower($request->email))->count();
             if ($count > 0) {
                 return redirect('edit/'.$model->id)->with('error', $request->email . ' has already been taken.');
             }
@@ -94,7 +94,7 @@ class UserController extends Controller
         
         $update = $model->update([
             'name' => $request->name,
-            'email' => $request->email,
+            'email' => strtolower($request->email),
             'phone' => $request->phone
         ]);
 
