@@ -25,8 +25,7 @@ class ApiController extends Controller
         ]);
 
         if ($generate) {
-            return redirect('api')->with('success', 'Data created successfully! <br>
-                                        Key: '. $key);
+            return redirect('api')->with('success', 'Data created successfully! <br>Key: '. $key);
         }else{
             return redirect('api')->with('danger', 'Data failed to generate!');
         }
@@ -42,7 +41,7 @@ class ApiController extends Controller
 
             $model = Api::where('key', $request->key)->first();
             if ($request->name && $request->email && $request->phone) {
-                if (User::where('email', 'like', '%' . $request->email . '%')->count() !== 0) {
+                if (User::where('email', $request->email)->count() !== 0) {
                     return response()->json([
                         'status' => 'accept & canceled',
                         'to' => $model->email ?? null,
@@ -51,7 +50,7 @@ class ApiController extends Controller
                 }else{
                     $modelUserRequest = [
                         'name' => $request->name,
-                        'email' => $request->email,
+                        'email' => strtolower($request->email),
                         'phone' => $request->phone
                     ];
                     User::create($modelUserRequest);
@@ -108,34 +107,34 @@ class ApiController extends Controller
             $modelUserNow = User::findOrFail($request->id);
             if ($request->name && $request->email && $request->phone) {
                 if ($modelUser->email !== $request->email) {
-                    if (User::where('email', 'like', '%' . $request->email . '%')->count() !== 0) {
+                    if (User::where('email', $request->email)->count() !== 0) {
                         return response()->json([
                             'status' => 'accept & canceled asas',
                             'to' => $model->email ?? null,
                             'message' => 'The email has already been taken.'
                         ], 403);
                     }
-                }else{
-                    $modelUserRequest = [
-                        'name' => $request->name,
-                        'email' => $request->email,
-                        'phone' => $request->phone
-                    ];
-                    $modelUserNow->update($modelUserRequest);
-                    return response()->json([
-                        'status' => 'success',
-                        'to' => $model->email ?? null,
-                        'message' => 'Data updated successfully.',
-                        'data' => [
-                            'before' => [
-                                'name' => $modelUser->name,
-                                'email' => $modelUser->email,
-                                'phone' => $modelUser->phone
-                            ],
-                            'after' => $modelUserRequest
-                        ]
-                    ], 200);
                 }
+                
+                $modelUserRequest = [
+                    'name' => $request->name,
+                    'email' => strtolower($request->email),
+                    'phone' => $request->phone
+                ];
+                $modelUserNow->update($modelUserRequest);
+                return response()->json([
+                    'status' => 'success',
+                    'to' => $model->email ?? null,
+                    'message' => 'Data updated successfully.',
+                    'data' => [
+                        'before' => [
+                            'name' => $modelUser->name,
+                            'email' => $modelUser->email,
+                            'phone' => $modelUser->phone
+                        ],
+                        'after' => $modelUserRequest
+                    ]
+                ], 200);
             }else{
                 return Api::failedAction();
             }
