@@ -59,10 +59,10 @@
 
   <h4 class="mt-4">Read</h4>
   <p>This action use to read data user.</p>
-  <p>If you want to see all the data user</p>
+  <h6>1. If you want to see all the data user</h6>
   <p>You need Variable: key.</p>
   <img src="{{ asset('img/read1.jpg') }}" alt="">
-  <p>If you want to see specific the data user</p>
+  <h6>2. If you want to see specific the data user</h6>
   <p>You need Variable: key, id.</p>
   <img src="{{ asset('img/read2.jpg') }}" alt="">
 
